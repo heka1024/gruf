@@ -73,6 +73,10 @@ module Gruf
     # @!attribute event_listener_proc
     #   @return [NilClass]
     #   @return [Proc] If set, this will be used during GRPC events (such as pool exhaustions)
+    # @!attribute rpc_server
+    #   @return [NilClass]
+    #   @return [GRPC::RpcServer] The server instance to use for the Gruf server
+    #     If not set, will use the default GRPC::RpcServer
     # @!attribute synchronized_client_internal_cache_expiry
     #   @return [Integer] Internal cache expiry period (in seconds) for the SynchronizedClient
     # @!attribute rpc_server_options
@@ -108,6 +112,7 @@ module Gruf
       use_exception_message: true,
       internal_error_message: 'Internal Server Error',
       event_listener_proc: nil,
+      rpc_server: nil,
       health_check_enabled: false,
       health_check_hook: nil,
       synchronized_client_internal_cache_expiry: 60,
