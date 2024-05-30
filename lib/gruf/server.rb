@@ -47,6 +47,7 @@ module Gruf
       @started = false
       @hostname = opts.fetch(:hostname, Gruf.server_binding_url)
       @event_listener_proc = opts.fetch(:event_listener_proc, Gruf.event_listener_proc)
+      @rpc_server = opts.fetch(:server, Gruf.rpc_server)
     end
 
     ##
@@ -66,7 +67,9 @@ module Gruf
             server_args: options.fetch(:server_args, Gruf.rpc_server_options[:server_args])
           }
 
-          server = if @event_listener_proc
+          server = if @rpc_server
+                     @rpc_server.new(**server_options)
+                   elsif @event_listener_proc
                      server_options[:event_listener_proc] = @event_listener_proc
                      Gruf::InstrumentableGrpcServer.new(**server_options)
                    else
